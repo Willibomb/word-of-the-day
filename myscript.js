@@ -1,6 +1,7 @@
 //define variables
 let termDiv;
 let definitionDiv;
+let definition2Div;
 let audioDiv;
 let originDiv;
 let exampleDiv;
@@ -13,11 +14,11 @@ let randomWordURL =
 "https://random-word-api.herokuapp.com/word?number=1";
 let wordDefinitionURL = 
 "https://api.dictionaryapi.dev/api/v2/entries/en/";
-let i;
 
 window.onload = function() {
 	termDiv = document.getElementById("term");
 	definitionDiv = document.getElementById("definition");
+	definition2Div = document.getElementById("definition2");
 	audioDiv = document.getElementById("audio");
 	originDiv = document.getElementById("origin");
 	exampleDiv = document.getElementById("example");
@@ -52,12 +53,9 @@ function updateDefinition(data2){
 	console.log(data2);
 	
 	//show definition
-	for (let i = 0; i < 100; i++) {
-		if (data2[0] != undefined){
-	        definitionDiv.innerHTML = data2[0].meanings[i].definitions[i].definition;
-	    }
-	}
-	
+	if (data2[0] != undefined){
+	  let definition = data2[0].meanings[0].definitions[0].definition;
+	definitionDiv.innerHTML = definition;
 	//show audio file
 	if(data2[0].phonetics[0].audio != undefined){
 		let output = "<audio controls><source src='";
@@ -77,15 +75,23 @@ function updateDefinition(data2){
 	if (data2[0].meanings[0].partOfSpeech != undefined){
 		partOfSpeechDiv.innerHTML = data2[0].meanings[0].partOfSpeech;
 	}
-	if (data2[0].meanings[0].definitions[0].synonyms != undefined){
+	if (data2[0].meanings[0].definitions[0].synonyms != undefined && data2[0].meanings[0].definitions[0].synonyms.length != 0){
 		synonymsDiv.innerHTML = "synonyms:<br>" + data2[0].meanings[0].definitions[0].synonyms;
 	}
-	if (data2[0].meanings[0].definitions[0].antonyms != undefined){
+	if (data2[0].meanings[0].definitions[0].antonyms != undefined && data2[0].meanings[0].definitions[0].antonyms.length != 0){
 		antonymsDiv.innerHTML = "Antonyms:<br>" + data2[0].meanings[0].definitions[0].antonyms;
+	}
+	if (data2[0].meanings[1].definitions[0] != undefined && data2[0].meanings[1].definitions[0].length != 0){
+	    definition2Div.innerHTML = data2[0].meanings[1].definitions[0].definition;
 	}
 	if (data2[0].phonetic != undefined){
 		phoneticDiv.innerHTML = data2[0].phonetic;
+	}
+	if (data2[0].phonetic != undefined){
+		phoneticDiv.innerHTML = data2[0].phonetic;
+	}
 	} else {
 		definitionDiv.innerHTML = data2.message + "<br>Please reload page.";
 	}
 }
+
